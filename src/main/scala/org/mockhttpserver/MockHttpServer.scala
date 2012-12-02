@@ -7,7 +7,7 @@ import java.net.InetSocketAddress
 import org.apache.http.entity.ContentType
 import java.io.PrintStream
 
-class MockHttpServer(host: String, port: Int, expectations: List[Pair[Request, Response]]) extends Container {
+class MockHttpServer(host: String, port: Int, expectations: Map[Request, Response]) extends Container {
 
   private val socketConnection: SocketConnection = new SocketConnection(this)
 
@@ -21,15 +21,19 @@ class MockHttpServer(host: String, port: Int, expectations: List[Pair[Request, R
   }
 
   def handle(req: http.Request, resp: http.Response) {
-
-    resp.setCode(200)
-    resp.set("Content-Type", ContentType.APPLICATION_JSON.toString)
-    val stream: PrintStream = resp.getPrintStream
-    stream.print("foo me")
-    stream.close()
+    expectations.get(Request(req.getPath.toString)) match{
+      case Some(r) => {
+        resp.setCode(r.status)
+        resp.set("Content-Type", r.contentType)
+        val stream: PrintStream = resp.getPrintStream
+        stream.print(r.body)
+        stream.close()
+      }
+      case None => throw new RuntimeException("Request wasn't expected %s".format(req))
+    }
   }
 }
 
 object MockHttpServer {
-  def apply(host: String, port: Int)(expectations: Pair[Request, Response]*) = new MockHttpServer(host, port, expectations.toList)
+  def apply(host: String, port: Int)(expectations: Map[Request, Response]) = new MockHttpServer(host, port, expectations)
 }

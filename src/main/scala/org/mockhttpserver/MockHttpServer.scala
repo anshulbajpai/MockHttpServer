@@ -4,7 +4,6 @@ import org.simpleframework.transport.connect.SocketConnection
 import org.simpleframework.http.core.Container
 import org.simpleframework.http
 import java.net.InetSocketAddress
-import org.apache.http.entity.ContentType
 import java.io.PrintStream
 
 class MockHttpServer(host: String, port: Int, expectations: Map[Request, Response]) extends Container {
@@ -21,15 +20,20 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
   }
 
   def handle(req: http.Request, resp: http.Response) {
-    expectations.get(Request(req.getPath.toString)) match{
+    expectations.get(Request(req.getTarget)) match {
       case Some(r) => {
-        resp.setCode(r.status)
-        resp.set("Content-Type", r.contentType)
-        val stream: PrintStream = resp.getPrintStream
-        stream.print(r.body)
-        stream.close()
+        setResponse(r.status, r.contentType, r.body)
       }
-      case None => throw new RuntimeException("Request wasn't expected %s".format(req))
+      case None => {
+        setResponse(404, "plain/text", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))
+      }
+    }
+    def setResponse(status: Int, contentType: String, body: Any) {
+      resp.setCode(status)
+      resp.set("Content-Type", contentType)
+      val stream: PrintStream = resp.getPrintStream
+      stream.print(body)
+      stream.close()
     }
   }
 }

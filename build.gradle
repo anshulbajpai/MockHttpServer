@@ -1,0 +1,53 @@
+apply plugin: "idea"
+apply plugin: "scala"
+
+group = 'org.mockhttpserver'
+version = '1.0'
+archivesBaseName = "mock-http-server"
+
+sourceCompatibility = 1.6
+version = "1.0"
+
+repositories {
+    mavenCentral()
+    maven{
+        url "https://oss.sonatype.org/content/groups/public"
+        url "http://www.bigbeeconsultants.co.uk/repo/bee-client"
+    }
+}
+
+ext.scalaVersion = "2.9.2"
+
+dependencies {
+    scalaTools "org.scala-lang:scala-compiler:${scalaVersion}"
+    scalaTools "org.scala-lang:scala-library:${scalaVersion}"
+    compile "org.scala-lang:scala-library:${scalaVersion}"
+    compile "org.scala-lang:scala-compiler:${scalaVersion}"
+    compile "org.apache.httpcomponents:httpclient:4.2.2"
+    compile "org.apache.httpcomponents:httpcore:4.2.2"
+    compile "org.simpleframework:simple:4.1.21"
+
+    testCompile "org.scalatest:scalatest_${scalaVersion}:1.8"
+    testCompile "commons-io:commons-io:2.0.1"
+}
+
+compileScala{
+    scalaCompileOptions.fork = true
+    scalaCompileOptions.useAnt = false
+}
+compileTestScala{
+    scalaCompileOptions.fork = true
+    scalaCompileOptions.useAnt = false
+}
+
+idea.project.ipr.withXml { provider ->
+    def vcsConfig = provider.asNode().component.find { it.'@name' == 'VcsDirectoryMappings' }
+    vcsConfig.mapping[0].'@vcs' = 'Git'
+}
+
+idea {
+    project {
+        jdkName = '1.6'
+        languageLevel = '1.6'
+    }
+}

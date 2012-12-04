@@ -20,12 +20,12 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
   }
 
   def handle(req: http.Request, resp: http.Response) {
-    expectations.get(Request(req.getTarget)) match {
+    expectations.get(getRequest(req)) match {
       case Some(r) => {
         setResponse(r.status, r.contentType, r.body)
       }
       case None => {
-        setResponse(404, "plain/text", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))
+        setResponse(404, "text/plain", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))
       }
     }
     def setResponse(status: Int, contentType: String, body: Any) {
@@ -35,6 +35,11 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
       stream.print(body)
       stream.close()
     }
+  }
+
+  private def getRequest(req: http.Request) = req.getMethod match {
+    case "GET" => GET(req.getTarget)
+    case "POST" => POST(req.getTarget)
   }
 }
 

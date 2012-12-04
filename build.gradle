@@ -12,11 +12,13 @@ repositories {
     mavenCentral()
     maven{
         url "https://oss.sonatype.org/content/groups/public"
-        url "http://www.bigbeeconsultants.co.uk/repo/bee-client"
+        url "https://raw.github.com/FaKod/fakod-mvn-repo/master/releases"
     }
 }
 
 ext.scalaVersion = "2.9.2"
+ext.jerseyVersion = "1.16"
+
 
 dependencies {
     scalaTools "org.scala-lang:scala-compiler:${scalaVersion}"
@@ -24,12 +26,17 @@ dependencies {
     compile "org.scala-lang:scala-library:${scalaVersion}"
     compile "org.scala-lang:scala-compiler:${scalaVersion}"
     compile "org.apache.httpcomponents:httpclient:4.2.2"
-    compile "org.apache.httpcomponents:httpcore:4.2.2"
     compile "org.simpleframework:simple:4.1.21"
 
     testCompile "org.scalatest:scalatest_${scalaVersion}:1.8"
     testCompile "commons-io:commons-io:2.0.1"
+    testCompile "com.sun.jersey:jersey-core:${jerseyVersion}"
+    testCompile "com.sun.jersey:jersey-client:${jerseyVersion}"
+    testCompile "org.scala-libs:sjersey-client:0.2.0"
+
+    testRuntime files("lib/jersey-scala-0.2.0.jar")
 }
+
 
 compileScala{
     scalaCompileOptions.fork = true

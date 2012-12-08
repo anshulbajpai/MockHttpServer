@@ -1,5 +1,7 @@
 package org.mockhttpserver
 
-import org.sjersey.client.{Rest, SimpleWebResourceProvider}
+import com.sun.jersey.api.client.Client
 
-trait RestSupport extends Rest with SimpleWebResourceProvider
+trait RestSupport {
+  val jerseyClient = Client.create()
+}

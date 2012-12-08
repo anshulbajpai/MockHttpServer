@@ -4,7 +4,6 @@ import org.simpleframework.transport.connect.SocketConnection
 import org.simpleframework.http.core.Container
 import org.simpleframework.http
 import java.net.InetSocketAddress
-import java.io.PrintStream
 
 class MockHttpServer(host: String, port: Int, expectations: Map[Request, Response]) extends Container {
 
@@ -20,26 +19,26 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
   }
 
   def handle(req: http.Request, resp: http.Response) {
-    expectations.get(getRequest(req)) match {
-      case Some(r) => {
-        setResponse(r.status, r.contentType, r.body)
-      }
-      case None => {
-        setResponse(404, "text/plain", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))
-      }
-    }
-    def setResponse(status: Int, contentType: String, body: Any) {
-      resp.setCode(status)
-      resp.set("Content-Type", contentType)
-      val stream: PrintStream = resp.getPrintStream
-      stream.print(body)
+
+    val unmatchedResponse = Response(404, Some(PlainText("Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))))
+
+    setResponse(expectations.get(createRequest(req)).getOrElse(unmatchedResponse))
+
+    def setResponse(response: Response) {
+      resp.setCode(response.status)
+      val body = response.body.get
+      resp.set("Content-Type", body.contentType)
+      val stream = resp.getPrintStream
+      stream.print(body.entity)
       stream.close()
     }
   }
 
-  private def getRequest(req: http.Request) = req.getMethod match {
+  private def createRequest(req: http.Request) = req.getMethod match {
     case "GET" => GET(req.getTarget)
-    case "POST" => POST(req.getTarget)
+    case "POST" => POST(req.getTarget, req.getContentType.toString match {
+      case "application/json" => Some(Json(req.getContent))
+    })
   }
 }
 

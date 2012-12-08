@@ -43,5 +43,5 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
 }
 
 object MockHttpServer {
-  def apply(host: String, port: Int)(expectations: Map[Request, Response]) = new MockHttpServer(host, port, expectations)
+  def apply(host: String, port: Int)(expectations: (Request, Response)*) = new MockHttpServer(host, port, expectations.toMap)
 }

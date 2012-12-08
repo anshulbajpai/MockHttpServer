@@ -16,9 +16,9 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
     var server : MockHttpServer = null
 
     it("satisfy the get expectations"){
-      server = MockHttpServer("localhost",8080) {Map(
+      server = MockHttpServer("localhost",8080) {
         GET("/foo") -> Response(200, Some(PlainText("foo me")))
-      )}.start
+      }.start
 
       val response = jerseyClient.resource(baseUri + "foo").get(classOf[ClientResponse])
       response.getStatus should  be(200)
@@ -27,9 +27,9 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
     }
 
     it("satisfy the post expectations with Json Request"){
-      server = MockHttpServer("localhost",8080) {Map(
+      server = MockHttpServer("localhost",8080) {
         POST("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
-      )}.start
+      }.start
 
       val response = jerseyClient.resource(baseUri + "foo").`type`("application/json").post(classOf[ClientResponse], toJson(RequestEntity))
       response.getStatus should  be(200)
@@ -38,7 +38,10 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
     }
 
     it("returns 404 if the expectations is not satisfied"){
-      server = MockHttpServer("localhost",8080) {Map.empty}.start
+      server = MockHttpServer("localhost",8080) {
+        POST("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
+        POST("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
+      }.start
 
       val response = jerseyClient.resource(baseUri + "foo").get(classOf[ClientResponse])
       response.getStatus should  be(404)

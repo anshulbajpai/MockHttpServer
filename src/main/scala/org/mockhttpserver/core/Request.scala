@@ -7,7 +7,15 @@ object GET{
   def apply(url : String) = Request(url)
 }
 
+object DELETE{
+  def apply(url : String) = Request(url)
+}
+
 object POST{
+  def apply(url : String, body : Option[Body]) = Request(url, body)
+}
+
+object PUT{
   def apply(url : String, body : Option[Body]) = Request(url, body)
 }
 

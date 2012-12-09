@@ -1,4 +1,4 @@
-package org.mockhttpserver.parser
+package org.mockhttpserver.expectations
 
 import org.mockhttpserver.core.{Body, Response, Request}
 

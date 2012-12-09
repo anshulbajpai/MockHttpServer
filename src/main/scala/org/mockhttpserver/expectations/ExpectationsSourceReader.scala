@@ -1,4 +1,4 @@
-package org.mockhttpserver.resource
+package org.mockhttpserver.expectations
 
 import io.Source
 import java.io.FileNotFoundException

@@ -1,4 +1,4 @@
-package org.mockhttpserver.parse
+package org.mockhttpserver.parser
 
 import org.mockhttpserver.support.BddSpec
 import org.mockhttpserver.core.{Response, Request}
@@ -8,7 +8,7 @@ class ExpectationsParserSpec extends BddSpec{
 
   describe("Expectations Parser"){
     it("fetches expectations correctly"){
-      val expectations = ExpectationsParser.parse(classPathResource("/expectations/post.txt"))
+      val expectations = new ExpectationsParser().parse(classPathResource("/expectations/post.expectations"))
       expectations.size should be(5)
       expectations should contain((Request("/foo1"), Response(204)))
       expectations should contain((Request("/foo2", Some(Json("""{"name":"request","age":"10"}"""))), Response(200)))

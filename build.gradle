@@ -33,6 +33,7 @@ dependencies {
     testCompile "com.sun.jersey:jersey-core:${jerseyVersion}"
     testCompile "com.sun.jersey:jersey-client:${jerseyVersion}"
     testCompile "com.sun.jersey:jersey-json:${jerseyVersion}"
+    testCompile "org.mockito:mockito-all:1.9.5"
 }
 
 compileScala{

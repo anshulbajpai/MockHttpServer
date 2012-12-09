@@ -1,12 +1,12 @@
-package org.mockhttpserver.parse
+package org.mockhttpserver.parser
 
 import org.mockhttpserver.core.{Body, Response, Request}
 
-object ExpectationsParser {
+class ExpectationsParser {
 
-  val Expectation = """(.+)->(.+)""".r
-  val WithBody = """(.+)\[(.+)\]@(.+)""".r
-  val WithoutBody = """(.+)""".r
+  private val Expectation = """(.+)->(.+)""".r
+  private val WithBody = """(.+)\[(.+)\]@(.+)""".r
+  private val WithoutBody = """(.+)""".r
 
   def parse(source : String) = source.split("""\*""").drop(1).foldLeft(List.empty[(Request, Response)]){ (l,e) =>
       val Expectation(requestExpectation, responseExpectation) = e

@@ -1,4 +1,4 @@
-package org.mockhttpserver
+package org.mockhttpserver.support
 
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.databind.ObjectMapper

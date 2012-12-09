@@ -1,4 +1,4 @@
-package org.mockhttpserver
+package org.mockhttpserver.support
 
 import com.sun.jersey.api.client.Client
 

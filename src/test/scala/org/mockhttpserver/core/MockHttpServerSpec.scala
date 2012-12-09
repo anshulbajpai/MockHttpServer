@@ -1,7 +1,10 @@
-package org.mockhttpserver
+package org.mockhttpserver.core
 
 import com.sun.jersey.api.client.ClientResponse
 import javax.ws.rs.core.MediaType
+import scala.Some
+import org.mockhttpserver.support.{RestSupport, JsonSupport, BddSpec}
+import org.mockhttpserver.{Json, PlainText}
 
 class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
 

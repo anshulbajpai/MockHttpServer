@@ -1,4 +1,4 @@
-package org.mockhttpserver
+package org.mockhttpserver.core
 
 import org.simpleframework.transport.connect.SocketConnection
 import org.simpleframework.http.core.Container
@@ -20,7 +20,7 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
 
   def handle(req: http.Request, resp: http.Response) {
 
-    val unmatchedResponse = Response(404, Some(PlainText("Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))))
+    val unmatchedResponse = Response(404, Some(Body("text/plain", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))))
 
     setResponse(expectations.get(createRequest(req)).getOrElse(unmatchedResponse))
 
@@ -36,8 +36,9 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
 
   private def createRequest(req: http.Request) = req.getMethod match {
     case "GET" => GET(req.getTarget)
-    case "POST" => POST(req.getTarget, req.getContentType.toString match {
-      case "application/json" => Some(Json(req.getContent))
+    case "POST" => POST(req.getTarget, req.getContent match {
+      case c if !c.isEmpty=> Some(Body(req.getContentType.toString, c))
+      case _ => None
     })
   }
 }

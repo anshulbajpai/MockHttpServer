@@ -22,17 +22,18 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
     it("satisfy the get expectations"){
 
       server = MockHttpServer("localhost",8080)(
-        GET("/foo") -> Response(200, Some(PlainText("foo me")))
+        Get("/foo") -> Response(200, Some(PlainText("foo get"))),
+        Post("/foo", None) -> Response(200, Some(PlainText("foo post")))
       ).start
 
-      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo me"){
+      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
         jerseyClient.resource(baseUri + "foo").get(classOf[ClientResponse])
       }
     }
 
     it("satisfy the post expectations with Json Request"){
       server = MockHttpServer("localhost",8080) {
-        POST("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
+        Post("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
       }.start
 
       verifyResponse(200, MediaType.APPLICATION_JSON_TYPE, toJson(ResponseEntity)){
@@ -42,8 +43,8 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
 
     it("returns 404 if the expectations is not satisfied"){
       server = MockHttpServer("localhost",8080) {
-        POST("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
-        POST("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
+        Post("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
+        Post("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
       }.start
 
       verifyResponse(404, MediaType.TEXT_PLAIN_TYPE, "Request was not matched GET localhost:8080/foo"){

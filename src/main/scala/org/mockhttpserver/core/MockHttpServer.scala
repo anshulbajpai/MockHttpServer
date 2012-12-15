@@ -35,8 +35,8 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
   }
 
   private def createRequest(req: http.Request) = req.getMethod match {
-    case "GET" => GET(req.getTarget)
-    case "POST" => POST(req.getTarget, req.getContent match {
+    case "GET" => Get(req.getTarget)
+    case "POST" => Post(req.getTarget, req.getContent match {
       case c if !c.isEmpty=> Some(Body(req.getContentType.toString, c))
       case _ => None
     })

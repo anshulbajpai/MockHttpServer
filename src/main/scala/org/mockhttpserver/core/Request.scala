@@ -1,22 +1,20 @@
 package org.mockhttpserver.core
 
-case class Request(url : String, body : Option[Body] = None)
+case class Body(contentType : String, entity : Any)
+
+trait Request{
+ def url : String
+ def body : Option[Body]
+}
+
 case class Response(status : Int, body : Option[Body] = None)
 
-object GET{
-  def apply(url : String) = Request(url)
+case class Get(url : String) extends Request {
+  val body = None
+}
+case class Delete(url : String) extends Request {
+  val body = None
 }
 
-object DELETE{
-  def apply(url : String) = Request(url)
-}
-
-object POST{
-  def apply(url : String, body : Option[Body]) = Request(url, body)
-}
-
-object PUT{
-  def apply(url : String, body : Option[Body]) = Request(url, body)
-}
-
-case class Body(contentType : String, entity : Any)
+case class Post(url : String, body : Option[Body] = None) extends Request
+case class Put(url : String, body : Option[Body]= None) extends Request

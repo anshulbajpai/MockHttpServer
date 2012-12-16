@@ -1,1 +1,1 @@
-/foo->[{"name":"response","age":"20"}]@application/json
+*/foo->200[{"name":"response","age":"20"}]@application/json

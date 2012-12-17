@@ -26,17 +26,27 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
 
     def setResponse(response: Response) {
       resp.setCode(response.status)
-      val body = response.body.get
-      resp.set("Content-Type", body.contentType)
-      val stream = resp.getPrintStream
-      stream.print(body.entity)
-      stream.close()
+      req.getMethod match {
+        case "DELETE" =>  resp.close()
+        case _ => {
+          val body = response.body.get
+          resp.set("Content-Type", body.contentType)
+          val stream = resp.getPrintStream
+          stream.print(body.entity)
+          stream.close()
+        }
+      }
     }
   }
 
   private def createRequest(req: http.Request) = req.getMethod match {
     case "GET" => Get(req.getTarget)
+    case "DELETE" => Delete(req.getTarget)
     case "POST" => Post(req.getTarget, req.getContent match {
+      case c if !c.isEmpty=> Some(Body(req.getContentType.toString, c))
+      case _ => None
+    })
+    case "PUT" => Put(req.getTarget, req.getContent match {
       case c if !c.isEmpty=> Some(Body(req.getContentType.toString, c))
       case _ => None
     })

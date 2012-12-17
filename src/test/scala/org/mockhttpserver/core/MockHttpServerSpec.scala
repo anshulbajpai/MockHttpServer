@@ -31,9 +31,19 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
       }
     }
 
+    it("satisfy the delete expectations"){
+
+      server = MockHttpServer("localhost",8080)(
+        Delete("/foo") -> Response(204)
+      ).start
+
+      val response = jerseyClient.resource(baseUri + "foo").delete(classOf[ClientResponse])
+      response.getStatus should be === 204
+    }
+
     it("satisfy the post expectations with Json Request"){
       server = MockHttpServer("localhost",8080) {
-        Post("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
+        Post("/foo", Some(Json(RequestEntity))) -> Response(200, Some(Json(ResponseEntity)))
       }.start
 
       verifyResponse(200, MediaType.APPLICATION_JSON_TYPE, toJson(ResponseEntity)){
@@ -41,10 +51,20 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
       }
     }
 
+    it("satisfy the put expectations with Json Request"){
+      server = MockHttpServer("localhost",8080) {
+        Put("/foo", Some(Json(RequestEntity))) -> Response(200, Some(Json(ResponseEntity)))
+      }.start
+
+      verifyResponse(200, MediaType.APPLICATION_JSON_TYPE, toJson(ResponseEntity)){
+        jerseyClient.resource(baseUri + "foo").`type`("application/json").put(classOf[ClientResponse], toJson(RequestEntity))
+      }
+    }
+
     it("returns 404 if the expectations is not satisfied"){
       server = MockHttpServer("localhost",8080) {
-        Post("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
-        Post("/foo", Some(Json(toJson(RequestEntity)))) -> Response(200, Some(Json(toJson(ResponseEntity))))
+        Post("/foo", Some(Json(RequestEntity))) -> Response(200, Some(Json(ResponseEntity)))
+        Post("/foo", Some(Json(RequestEntity))) -> Response(200, Some(Json(ResponseEntity)))
       }.start
 
       verifyResponse(404, MediaType.TEXT_PLAIN_TYPE, "Request was not matched GET localhost:8080/foo"){

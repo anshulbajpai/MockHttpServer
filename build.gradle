@@ -1,5 +1,17 @@
 apply plugin: "idea"
 apply plugin: "scala"
+apply plugin: 'executable-jar'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.nisgits.gradle:gradle-executable-jar-plugin:master-REL-6'
+    }
+}
+
+mainClass = 'org.mockhttpserver.cli.Start'
 
 group = 'org.mockhttpserver'
 version = '1.0'
@@ -25,6 +37,7 @@ dependencies {
     compile "org.scala-lang:scala-compiler:${scalaVersion}"
     compile "org.apache.httpcomponents:httpclient:4.2.2"
     compile "org.simpleframework:simple:4.1.21"
+    compile "org.rogach:scallop_2.9.2:0.6.2"
 
 
     testCompile "com.fasterxml.jackson.module:jackson-module-scala:2.1.2"

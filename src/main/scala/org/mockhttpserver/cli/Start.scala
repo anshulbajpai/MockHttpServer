@@ -13,6 +13,4 @@ object Start extends App{
     val expectations = accumulator.accumulateFrom(conf.basePath())
     MockHttpServer(conf.host, conf.port())(expectations:_*).start
     println("Server Started..")
-
-
 }

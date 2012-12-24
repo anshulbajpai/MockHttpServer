@@ -1,9 +1,16 @@
 apply plugin: "idea"
 apply plugin: "scala"
+apply plugin:com.smokejumperit.gradle.OneJarPlugin
 
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url 'http://repo.smokejumperit.com'
+        }
+    }
+    dependencies {
+        classpath "com.smokejumperit:gradle-plugins:0.8.2"
     }
 }
 
@@ -15,7 +22,7 @@ sourceCompatibility = 1.6
 
 repositories {
     mavenCentral()
-    maven{
+    maven {
         url "https://oss.sonatype.org/content/groups/public"
     }
 }
@@ -44,11 +51,11 @@ dependencies {
     testCompile "junit:junit:4.11"
 }
 
-compileScala{
+compileScala {
     scalaCompileOptions.fork = true
     scalaCompileOptions.useAnt = false
 }
-compileTestScala{
+compileTestScala {
     scalaCompileOptions.fork = true
     scalaCompileOptions.useAnt = false
 }
@@ -57,8 +64,7 @@ jar {
     manifest {
         attributes("Manifest-Version": "1.0", "Main-Class": "org.mockhttpserver.cli.Start")
     }
-//    dependsOn configurations.runtime
-//    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    excludes
 }
 
 idea.project.ipr.withXml { provider ->

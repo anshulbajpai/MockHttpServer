@@ -1,16 +1,16 @@
 package org.mockhttpserver.cli
 
 import org.mockhttpserver.core.MockHttpServer
-import org.mockhttpserver.expectations.{ExpectationsAccumulator, ExpectationsParser, ExpectationsSourceReader, ExpectationsExtractor}
+import org.mockhttpserver.expectations.{ExpectationsAccumulator, ExpectationsParser, SourceReader, ExpectationsExtractor}
 import scala.Predef._
 
-object Start extends App{
+object Start extends App {
 
-    val conf = new Conf(args)
-    val extractor = new ExpectationsExtractor(new ExpectationsSourceReader, new ExpectationsParser)
-    val accumulator = new ExpectationsAccumulator(extractor)
+  val conf = new Conf(args)
+  val reader = new SourceReader(conf.basePath())
+  val extractor = new ExpectationsExtractor(reader, new ExpectationsParser(reader))
+  val accumulator = new ExpectationsAccumulator(extractor)
 
-    val expectations = accumulator.accumulateFrom(conf.basePath())
-    MockHttpServer(conf.host, conf.port())(expectations:_*).start
-    println("Server Started..")
+  MockHttpServer(conf.host, conf.port())(accumulator.accumulate: _*).start
+  println("Server Started..")
 }

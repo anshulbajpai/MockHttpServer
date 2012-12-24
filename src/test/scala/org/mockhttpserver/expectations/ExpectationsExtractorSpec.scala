@@ -8,7 +8,7 @@ class ExpectationsExtractorSpec extends JunitBddSpec {
 
   describe("Expectations Extractor"){
     val parser = mock[ExpectationsParser]
-    val reader = mock[ExpectationsSourceReader]
+    val reader = mock[SourceReader]
 
     val path = "some path"
     val extractor = new ExpectationsExtractor(reader, parser)

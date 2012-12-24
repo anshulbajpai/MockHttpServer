@@ -14,16 +14,15 @@ class ExpectationsAccumulatorSpec extends JunitBddSpec {
   describe("Expectations Accumulator") {
     it("accumulates all types of expectations") {
       val extractor = mock[ExpectationsExtractor]
-      val basePath = "base path"
       val getExpectation = (Get("get"), Response(200))
       val postExpectation = (Post("post"), Response(200))
       val putExpectation = (Put("put"), Response(200))
       val deleteExpectation = (Delete("delete"), Response(200))
-      when(extractor.collect(basePath + "/get.expectations")(GetTransform)).thenReturn(List(getExpectation))
-      when(extractor.collect(basePath + "/post.expectations")(PostTransform)).thenReturn(List(postExpectation))
-      when(extractor.collect(basePath + "/put.expectations")(PutTransform)).thenReturn(List(putExpectation))
-      when(extractor.collect(basePath + "/delete.expectations")(DeleteTransform)).thenReturn(List(deleteExpectation))
-      val allExpectations = new ExpectationsAccumulator(extractor).accumulateFrom(basePath)
+      when(extractor.collect("/get.expectations")(GetTransform)).thenReturn(List(getExpectation))
+      when(extractor.collect("/post.expectations")(PostTransform)).thenReturn(List(postExpectation))
+      when(extractor.collect("/put.expectations")(PutTransform)).thenReturn(List(putExpectation))
+      when(extractor.collect("/delete.expectations")(DeleteTransform)).thenReturn(List(deleteExpectation))
+      val allExpectations = new ExpectationsAccumulator(extractor).accumulate
       allExpectations.size should be === 4
       allExpectations.contains((Get(getExpectation._1.url), getExpectation._2)) should be === true
       allExpectations.contains((Post(postExpectation._1.url), postExpectation._2)) should be === true

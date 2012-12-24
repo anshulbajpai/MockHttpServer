@@ -4,7 +4,7 @@ import org.mockhttpserver.core._
 import scala.Some
 
 
-class ExpectationsExtractor(sourceReader : ExpectationsSourceReader, parser : ExpectationsParser) {
+class ExpectationsExtractor(sourceReader : SourceReader, parser : ExpectationsParser) {
 
   def collect[T <: Request](path: String)(implicit transform : Transform[T]) = sourceReader.read(path) match {
       case Some(s) => parser.parse(s)

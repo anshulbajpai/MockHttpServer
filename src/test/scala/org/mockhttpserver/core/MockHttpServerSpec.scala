@@ -3,10 +3,10 @@ package org.mockhttpserver.core
 import com.sun.jersey.api.client.ClientResponse
 import javax.ws.rs.core.MediaType
 import scala.Some
-import org.mockhttpserver.support.{RestSupport, JsonSupport, BddSpec}
+import org.mockhttpserver.support.{JunitBddSpec, RestSupport, JsonSupport}
 import org.mockhttpserver.{Json, PlainText}
 
-class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
+class MockHttpServerSpec extends JunitBddSpec with RestSupport with JsonSupport{
 
   case class Entity(name : String,age : Int)
 
@@ -31,24 +31,22 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
       }
     }
 
-//    it("satisfy expectations of url with regex pattern"){
-//
-//      server = MockHttpServer("localhost",8080)(
-//        Get("/foo.*") -> Response(200, Some(PlainText("foo get")))
-//      ).start
-//
-//      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
-//        jerseyClient.resource(baseUri + "foo").get(classOf[ClientResponse])
-//      }
-//      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
-//        jerseyClient.resource(baseUri + "foo1").get(classOf[ClientResponse])
-//      }
-//      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
-//        jerseyClient.resource(baseUri + "foo1/foo2").get(classOf[ClientResponse])
-//      }
-//    }
+    it("satisfy expectations of url with regex pattern"){
 
+      server = MockHttpServer("localhost",8080)(
+        Get("/foo.*") -> Response(200, Some(PlainText("foo get")))
+      ).start
 
+      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
+        jerseyClient.resource(baseUri + "foo").get(classOf[ClientResponse])
+      }
+      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
+        jerseyClient.resource(baseUri + "foo1").get(classOf[ClientResponse])
+      }
+      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
+        jerseyClient.resource(baseUri + "foo1/foo2").get(classOf[ClientResponse])
+      }
+    }
 
     it("satisfy the delete expectations"){
 

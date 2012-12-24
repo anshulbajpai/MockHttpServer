@@ -20,27 +20,20 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
 
   def handle(req: http.Request, resp: http.Response) {
 
-    val request = expectations.keys.find(r => req match {
-      case GET(g) => r == g
-      case DELETE(d) => r == d
-      case POST(p) => r == p
-      case PUT(p) => r == p
-      case _ => false
-    })
+    val request = extract(req)
 
-    val response = request match {
+    val response = expectations.keys.find(r => r ~= request) match {
       case Some(r) => expectations(r)
       case _ => Response(404, Some(Body("text/plain", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))))
     }
 
-    setResponse(response)
+    send(response)
 
-
-    def setResponse(response: Response) {
+    def send(response: Response) {
       resp.setCode(response.status)
       req.getMethod match {
         case "DELETE" =>  resp.close()
-        case _ if(!response.body.isDefined)=>  resp.close()
+        case _ if(!response.body.isDefined) =>  resp.close()
         case _  => {
           val body = response.body.get
           resp.set("Content-Type", body.contentType)
@@ -50,6 +43,13 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
         }
       }
     }
+  }
+
+  private def extract(req: http.Request) = req match {
+      case GET(g) => g
+      case DELETE(d) => d
+      case POST(p) => p
+      case PUT(p) => p
   }
 }
 

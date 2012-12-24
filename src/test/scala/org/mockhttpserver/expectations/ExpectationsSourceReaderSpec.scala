@@ -1,8 +1,8 @@
 package org.mockhttpserver.expectations
 
-import org.mockhttpserver.support.BddSpec
+import org.mockhttpserver.support.JunitBddSpec
 
-class ExpectationsSourceReaderSpec extends BddSpec {
+class ExpectationsSourceReaderSpec extends JunitBddSpec {
     describe("Source Reader"){
       it("returns the source at the path"){
         val source = new ExpectationsSourceReader().read(getClass.getResource("/expectations").toString + "/post.expectations")

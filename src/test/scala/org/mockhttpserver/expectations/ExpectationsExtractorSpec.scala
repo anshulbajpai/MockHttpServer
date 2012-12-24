@@ -1,10 +1,10 @@
 package org.mockhttpserver.expectations
 
-import org.mockhttpserver.support.BddSpec
+import org.mockhttpserver.support.JunitBddSpec
 import org.mockito.Mockito._
 import org.mockhttpserver.core.{Get, Response}
 
-class ExpectationsExtractorSpec extends BddSpec {
+class ExpectationsExtractorSpec extends JunitBddSpec {
 
   describe("Expectations Extractor"){
     val parser = mock[ExpectationsParser]

@@ -4,8 +4,12 @@ package org.mockhttpserver.core
 case class Body(contentType : String, entity : Any)
 
 trait Request{
- def url : String
- def body : Option[Body]
+  def ~= (request: Request) = {
+    this.body == request.body && request.url.matches(this.url)
+
+  }
+  def url : String
+  def body : Option[Body]
 }
 
 case class Response(status : Int, body : Option[Body] = None)

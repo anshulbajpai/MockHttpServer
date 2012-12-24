@@ -1,10 +1,10 @@
 package org.mockhttpserver.expectations
 
-import org.mockhttpserver.support.BddSpec
+import org.mockhttpserver.support.JunitBddSpec
 import org.mockhttpserver.core.{Post, Response}
 import org.mockhttpserver.{PlainText, Json}
 
-class ExpectationsParserSpec extends BddSpec{
+class ExpectationsParserSpec extends JunitBddSpec{
 
   case class Entity(name : String, age : String)
 

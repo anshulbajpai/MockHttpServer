@@ -1,8 +1,8 @@
 package org.mockhttpserver.cli
 
-import org.mockhttpserver.support.BddSpec
+import org.mockhttpserver.support.JunitBddSpec
 
-class ConfSpec extends BddSpec {
+class ConfSpec extends JunitBddSpec {
 
   describe("Conf") {
 

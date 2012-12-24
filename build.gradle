@@ -1,17 +1,11 @@
 apply plugin: "idea"
 apply plugin: "scala"
-apply plugin: 'executable-jar'
 
 buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath 'net.nisgits.gradle:gradle-executable-jar-plugin:master-REL-6'
-    }
 }
-
-mainClass = 'org.mockhttpserver.cli.Start'
 
 group = 'org.mockhttpserver'
 version = '1.0'
@@ -47,6 +41,7 @@ dependencies {
     testCompile "com.sun.jersey:jersey-client:${jerseyVersion}"
     testCompile "com.sun.jersey:jersey-json:${jerseyVersion}"
     testCompile "org.mockito:mockito-all:1.9.5"
+    testCompile "junit:junit:4.11"
 }
 
 compileScala{
@@ -56,6 +51,14 @@ compileScala{
 compileTestScala{
     scalaCompileOptions.fork = true
     scalaCompileOptions.useAnt = false
+}
+
+jar {
+    manifest {
+        attributes("Manifest-Version": "1.0", "Main-Class": "org.mockhttpserver.cli.Start")
+    }
+//    dependsOn configurations.runtime
+//    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 idea.project.ipr.withXml { provider ->

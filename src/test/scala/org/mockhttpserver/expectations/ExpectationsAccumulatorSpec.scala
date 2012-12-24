@@ -1,6 +1,6 @@
 package org.mockhttpserver.expectations
 
-import org.mockhttpserver.support.BddSpec
+import org.mockhttpserver.support.JunitBddSpec
 import org.mockito.Mockito._
 import org.mockhttpserver.core._
 import org.mockhttpserver.core.Put
@@ -9,7 +9,7 @@ import org.mockhttpserver.core.Post
 import org.mockhttpserver.core.Response
 import org.mockhttpserver.expectations.Transform.{DeleteTransform, PutTransform, PostTransform, GetTransform}
 
-class ExpectationsAccumulatorSpec extends BddSpec {
+class ExpectationsAccumulatorSpec extends JunitBddSpec {
 
   describe("Expectations Accumulator") {
     it("accumulates all types of expectations") {

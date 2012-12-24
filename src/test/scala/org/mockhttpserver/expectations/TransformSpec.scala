@@ -1,6 +1,6 @@
 package org.mockhttpserver.expectations
 
-import org.mockhttpserver.support.BddSpec
+import org.mockhttpserver.support.JunitBddSpec
 import org.mockhttpserver.core._
 import org.mockhttpserver.core.Put
 import org.mockhttpserver.core.Body
@@ -8,7 +8,7 @@ import org.mockhttpserver.core.Get
 import scala.Some
 import org.mockhttpserver.core.Post
 
-class TransformSpec extends BddSpec {
+class TransformSpec extends JunitBddSpec {
 
   describe("Transform"){
 

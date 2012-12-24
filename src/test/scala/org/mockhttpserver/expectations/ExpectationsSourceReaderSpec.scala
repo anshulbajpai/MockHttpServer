@@ -7,7 +7,7 @@ class ExpectationsSourceReaderSpec extends BddSpec {
       it("returns the source at the path"){
         val source = new ExpectationsSourceReader().read(getClass.getResource("/expectations").toString + "/post.expectations")
         source should be(
-          Some("""*/foo1->204*/foo2[{"name":"request","age":"10"}]@application/json->200*/foo3->200[{"name":"response","age":"10"}]@application/json*/foo4[{"name":"request","age":"10"}]@application/json->200[{"name":"response","age":"10"}]@application/json*/foo5[hi]@text/plain->200[bye]@text/plain""")
+          Some("""*/foo1->204*/foo2|{"name":"request","age":"10"}|@application/json->200*/foo3->200|{"name":"response","age":"10"}|@application/json*/foo4|{"name":"request","age":"10"}|@application/json->200|{"name":"response","age":"10"}|@application/json*/foo5|hi|@text/plain->200|bye|@text/plain""")
         )
       }
 

@@ -20,15 +20,28 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
 
   def handle(req: http.Request, resp: http.Response) {
 
-    val unmatchedResponse = Response(404, Some(Body("text/plain", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))))
+    val request = expectations.keys.find(r => req match {
+      case GET(g) => r == g
+      case DELETE(d) => r == d
+      case POST(p) => r == p
+      case PUT(p) => r == p
+      case _ => false
+    })
 
-    setResponse(expectations.get(createRequest(req)).getOrElse(unmatchedResponse))
+    val response = request match {
+      case Some(r) => expectations(r)
+      case _ => Response(404, Some(Body("text/plain", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))))
+    }
+
+    setResponse(response)
+
 
     def setResponse(response: Response) {
       resp.setCode(response.status)
       req.getMethod match {
         case "DELETE" =>  resp.close()
-        case _ => {
+        case _ if(!response.body.isDefined)=>  resp.close()
+        case _  => {
           val body = response.body.get
           resp.set("Content-Type", body.contentType)
           val stream = resp.getPrintStream
@@ -38,21 +51,11 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
       }
     }
   }
-
-  private def createRequest(req: http.Request) = req.getMethod match {
-    case "GET" => Get(req.getTarget)
-    case "DELETE" => Delete(req.getTarget)
-    case "POST" => Post(req.getTarget, req.getContent match {
-      case c if !c.isEmpty=> Some(Body(req.getContentType.toString, c))
-      case _ => None
-    })
-    case "PUT" => Put(req.getTarget, req.getContent match {
-      case c if !c.isEmpty=> Some(Body(req.getContentType.toString, c))
-      case _ => None
-    })
-  }
 }
 
 object MockHttpServer {
   def apply(host: String, port: Int)(expectations: (Request, Response) *) = new MockHttpServer(host, port, expectations.toMap)
 }
+
+
+

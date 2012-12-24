@@ -8,7 +8,7 @@ import org.mockhttpserver.core.Response
 class ExpectationsParser{
 
   private val Expectation = """(.+)->(.+)""".r
-  private val WithBody = """(.+)\[(.+)\]@(.+)""".r
+  private val WithBody = """(.+)\|(.+)\|@(.+)""".r
   private val WithoutBody = """(.+)""".r
 
 

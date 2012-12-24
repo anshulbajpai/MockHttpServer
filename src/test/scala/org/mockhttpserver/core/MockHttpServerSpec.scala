@@ -31,6 +31,25 @@ class MockHttpServerSpec extends BddSpec with RestSupport with JsonSupport{
       }
     }
 
+//    it("satisfy expectations of url with regex pattern"){
+//
+//      server = MockHttpServer("localhost",8080)(
+//        Get("/foo.*") -> Response(200, Some(PlainText("foo get")))
+//      ).start
+//
+//      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
+//        jerseyClient.resource(baseUri + "foo").get(classOf[ClientResponse])
+//      }
+//      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
+//        jerseyClient.resource(baseUri + "foo1").get(classOf[ClientResponse])
+//      }
+//      verifyResponse(200, MediaType.TEXT_PLAIN_TYPE, "foo get"){
+//        jerseyClient.resource(baseUri + "foo1/foo2").get(classOf[ClientResponse])
+//      }
+//    }
+
+
+
     it("satisfy the delete expectations"){
 
       server = MockHttpServer("localhost",8080)(

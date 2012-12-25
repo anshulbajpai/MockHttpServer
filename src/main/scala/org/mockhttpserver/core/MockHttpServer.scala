@@ -20,21 +20,18 @@ class MockHttpServer(host: String, port: Int, expectations: Map[Request, Respons
 
   def handle(req: http.Request, resp: http.Response) {
 
-    val request = extract(req)
-
-    val response = request match {
+    send(extract(req) match {
+      // TODO - write test for reload
       case Get("/reload") => {
         stop
         org.mockhttpserver.cli.Process.start
         Response(200)
       }
-      case _ => expectations.keys.find(r => r ~= request) match {
+      case _ => expectations.keys.find(r => r ~= extract(req)) match {
         case Some(r) => expectations(r)
         case _ => Response(404, Some(Body("text/plain", "Request was not matched %s %s:%s%s".format(req.getMethod, host, port, req.getTarget))))
       }
-    }
-
-    send(response)
+    })
 
     def send(response: Response) {
       resp.setCode(response.status)

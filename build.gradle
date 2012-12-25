@@ -62,7 +62,7 @@ compileTestScala {
 
 jar {
     manifest {
-        attributes("Manifest-Version": "1.0", "Main-Class": "org.mockhttpserver.cli.Start")
+        attributes("Manifest-Version": "1.0", "Main-Class": "org.mockhttpserver.cli.Process")
     }
 }
 

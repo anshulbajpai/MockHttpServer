@@ -7,7 +7,7 @@ import org.mockhttpserver.core.Response
 
 class ExpectationsParser(sourceReader : SourceReader){
 
-  private val Expectation = """(.+)->(.+)""".r
+  private val Expectation = """(.+)->(.+)\n{0,1}""".r
   private val WithInlineBody = """(.+)\|(.+)\|@(.+)""".r
   private val WithExternalizedBody = """(.+)\|file\((.+)\)\|@(.+)""".r
   private val WithoutBody = """(.+)""".r

@@ -4,7 +4,8 @@ import org.mockhttpserver.support.JunitBddSpec
 
 class SourceReaderSpec extends JunitBddSpec {
     describe("Source Reader"){
-      val reader = new SourceReader(getClass.getResource("/expectations").toString)
+      val fileName = getClass.getResource("/expectations").getPath
+      val reader = new SourceReader(fileName)
       it("returns the source at the path"){
         val source = reader.read("/post.expectations")
         source should be(

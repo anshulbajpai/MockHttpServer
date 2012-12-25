@@ -6,7 +6,7 @@ import java.io.FileNotFoundException
 class SourceReader(basePath : String) {
   def read(path : String) : Option[String] = {
     try {
-      Some(Source.fromURL(basePath + path).getLines.mkString)
+      Some(Source.fromFile(basePath + path).getLines.mkString)
     }
     catch {
       case e : FileNotFoundException => None

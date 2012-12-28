@@ -5,11 +5,11 @@ import scala.util.parsing.combinator._
 
 class ExpectationsParser(reader : SourceReader) extends JavaTokenParsers{
 
-  def url = """/.+~""".r ^^ {case url => url.init}
+  def url = "/.+~".r ^^ {case url => url.init}
   def entity(implicit `type` : String) = fileEntity | inlineEntity
-  def fileEntity(implicit `type` : String) = "file("~"""[^)]*""".r~")" ^^ { case "file("~fileName~")" => readFrom("/"+`type`+"/" + fileName + "."+`type`)}
-  def inlineEntity = """[^|]+""".r
-  def contentType = """[^-\n]+""".r
+  def fileEntity(implicit `type` : String) = "file("~"[^)]*".r~")" ^^ { case "file("~fileName~")" => readFrom("/%s/%s.%s".format(`type`, fileName, `type`))}
+  def inlineEntity = "[^|]+".r
+  def contentType = "[^-\n]+".r
 
   def body(implicit `type` : String) = "|"~entity~"|@"~contentType ^^ {case "|"~entity~"|@"~contentType => Body(contentType, entity)}
   def response = wholeNumber~opt(body("response")) ^^ {case status~body => Response(status.toInt,body)}

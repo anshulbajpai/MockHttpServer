@@ -1,7 +1,7 @@
 package org.mockhttpserver.core
 
 
-case class Body(contentType : String, entity : Any)
+case class Body(contentType : String, entity : String)
 
 trait Request{
   def ~= (request: Request) = {

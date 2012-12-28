@@ -1,1 +1,2 @@
-*/foo4|file(putFoo4)|@text/xml->200|file(putFoo4)|@text/xml
+*/foo4~|file(putFoo4)|@text/xml->200|file(putFoo4)|@text/xml
+*/foo5~|file(putFoo4)|@text/xml->303|file(putFoo4)|@text/xml

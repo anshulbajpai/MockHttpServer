@@ -1,32 +1,25 @@
 package org.mockhttpserver.expectations
 
-import org.mockhttpserver.core._
-import org.mockhttpserver.core.Body
-import scala.Some
-import org.mockhttpserver.core.Response
+import org.mockhttpserver.core.{Body, Response, Request}
+import scala.util.parsing.combinator._
 
-class ExpectationsParser(sourceReader : SourceReader){
+class ExpectationsParser(reader : SourceReader) extends JavaTokenParsers{
 
-  private val Expectation = """(.+)->(.+)\n{0,1}""".r
-  private val WithInlineBody = """(.+)\|(.+)\|@(.+)""".r
-  private val WithExternalizedBody = """(.+)\|file\((.+)\)\|@(.+)""".r
-  private val WithoutBody = """(.+)""".r
+  def url = """/.+~""".r ^^ {case url => url.init}
+  def entity(implicit `type` : String) = fileEntity | inlineEntity
+  def fileEntity(implicit `type` : String) = "file("~"""[^)]*""".r~")" ^^ { case "file("~fileName~")" => readFrom("/"+`type`+"/" + fileName + "."+`type`)}
+  def inlineEntity = """[^|]+""".r
+  def contentType = """[^-\n]+""".r
 
+  def body(implicit `type` : String) = "|"~entity~"|@"~contentType ^^ {case "|"~entity~"|@"~contentType => Body(contentType, entity)}
+  def response = wholeNumber~opt(body("response")) ^^ {case status~body => Response(status.toInt,body)}
 
-  def parse[T <: Request](source : String)(implicit transform : Transform[T]) = source.split("""\*""").drop(1).foldLeft(List.empty[(T, Response)]){ (l,e) =>
-    val Expectation(requestExpectation, responseExpectation) = e
-      val request = requestExpectation match {
-        case WithExternalizedBody(url, fileName, contentType) => transform.execute(url, Some(Body(contentType, getEntityFrom("/request/" + fileName + ".request"))))
-        case WithInlineBody(url, entity, contentType) => transform.execute(url, Some(Body(contentType, entity)))
-        case WithoutBody(url) => transform.execute(url)
-      }
-      val response = responseExpectation match {
-        case WithExternalizedBody(status, fileName, contentType) => Response(status.toInt, Some(Body(contentType, getEntityFrom("/response/" + fileName + ".response"))))
-        case WithInlineBody(status, entity, contentType) => Response(status.toInt, Some(Body(contentType, entity)))
-        case WithoutBody(status) => Response(status.toInt)
-      }
-      (request, response) :: l
+  def parse[T <: Request](source: String)(implicit transform: Transform[T]): List[(T, Response)] = {
+    def request = url~opt(body("request")) ^^ {case url~body => transform.execute(url, body)}
+    def expectation = "*"~request~"->"~response ^^ {case "*"~request~"->"~response => (request, response)}
+    def expectations = rep(expectation)
+    parseAll(expectations, source).get
   }
 
-  private def getEntityFrom(fileName: String) = sourceReader.read(fileName).getOrElse("")
+  private def readFrom(fileName: String) = reader.read(fileName).getOrElse("")
 }

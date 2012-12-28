@@ -1,7 +1,7 @@
 package org.mockhttpserver.cli
 
 import org.mockhttpserver.core.MockHttpServer
-import org.mockhttpserver.expectations.{ExpectationsAccumulator, ExpectationsParser, SourceReader, ExpectationsExtractor}
+import org.mockhttpserver.expectations._
 import scala.Predef._
 
 object Process extends App {

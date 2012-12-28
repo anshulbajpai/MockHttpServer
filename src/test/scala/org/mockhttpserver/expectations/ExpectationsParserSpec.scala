@@ -28,8 +28,9 @@ class ExpectationsParserSpec extends JunitBddSpec{
       when(reader.read("/request/putFoo4.request")).thenReturn(Some("foobar request"))
       when(reader.read("/response/putFoo4.response")).thenReturn(Some("foobar response"))
       val expectations = parser.parse(classPathResource("/expectations/put.expectations"))(Transform.PutTransform)
-      expectations.size should be(1)
+      expectations.size should be(2)
       expectations should contain (Put("/foo4", Some(Body("text/xml","foobar request"))), Response(200,Some(Body("text/xml","foobar response"))))
+      expectations should contain (Put("/foo5", Some(Body("text/xml","foobar request"))), Response(303,Some(Body("text/xml","foobar response"))))
     }
   }
 

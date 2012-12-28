@@ -8,8 +8,7 @@ import org.mockhttpserver.core.Post
 import org.mockhttpserver.core.Delete
 
 trait Transform[T <: Request] {
-  def execute(url : String, body : Option[Body]) : T
-  def execute(url : String) : T = execute(url, None)
+  def execute(url : String, body : Option[Body] = None) : T
 }
 
 object Transform {

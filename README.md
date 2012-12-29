@@ -20,7 +20,7 @@ Instructions to build from source
 
 Direct download standalone jar
 ==============================
-It'll be uploaded soon on a standard repository
+[Standalone](https://github.com/anshulbajpai/MockHttpServer/blob/master/artifacts/v1/MockHttpServer-standalone.jar)
 
 
 Usage Instructions from command line
@@ -91,8 +91,9 @@ Use it in source code
 =====================
 
 This api can be used in scala source code. Check the tests for usage. For now, I haven't uploaded it on  
-any standard repository but a normal api jar can be built just by doing ```gradle clean build``` or it'll be uploaded  
-soon on a standard repository.
+any standard repository but a normal api jar can be built just by doing ```gradle clean build``` or download it from  
+[Api jar](https://github.com/anshulbajpai/MockHttpServer/blob/master/artifacts/v1/mock-http-server-1.0.jar)
+
         
            
 

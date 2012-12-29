@@ -12,8 +12,14 @@ This tool can also be used by devs to test their prod rest client or it can be u
 Instructions to build from source
 =================================
 
+* clone the git repository
+* checkout version 1.0
 * run 'gradle clean build oneJar' from root directory. In build/libs there will be MockHttpServer-standalone.jar created.  
 * run 'java -jar MockHttpServer-standalone.jar --help' to see the usage instructions on command line
+
+
+Direct download standalone jar
+==============================
 
 
 Usage Instructions from command line

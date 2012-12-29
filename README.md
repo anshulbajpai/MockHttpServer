@@ -17,6 +17,12 @@ Instructions to build from source
 * run 'gradle clean build oneJar' from root directory. In build/libs there will be MockHttpServer-standalone.jar created.  
 * run 'java -jar MockHttpServer-standalone.jar --help' to see the usage instructions on command line
 
+Prebuilt Jars
+=============
+
+Clone this github repository and the two prebuilt jars **mock-http-server-1.0.jar** (api) and  
+**MockHttpServer-standalone.jar** (standalone) can be found under `<CLONED_DIRECTORY>/artifacts/v1`            
+
 
 Usage Instructions from command line
 ====================================
@@ -79,17 +85,3 @@ It's not mandatory to specifiy both request and response in the same style. They
 * There is a special preconfigured GET '/reload' which will reload the server with the latest expectations. Which means,  
 if you add/modify/delete expectations then you don't need to restart the server. Just fire a GET '/reload' on the server  
 and the expectations from the root folder will be reloaded.
-
-Prebuilt Jars
-====================
-
-Clone this github repository and the two prebuilt jars **mock-http-server-1.0.jar** (api) and  
-**MockHttpServer-standalone.jar** (standalone) can be found under `<CLONED_DIRECTORY>/artifacts/v1`            
-
-
-
-
-
-
-
-

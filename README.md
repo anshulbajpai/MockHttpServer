@@ -20,6 +20,7 @@ Instructions to build from source
 
 Direct download standalone jar
 ==============================
+It'll be uploaded soon on a standard repository
 
 
 Usage Instructions from command line
@@ -90,10 +91,8 @@ Use it in source code
 =====================
 
 This api can be used in scala source code. Check the tests for usage. For now, I haven't uploaded it on  
-any standard repository but a normal api jar can be built just by doing ```gradle clean build``` or it can be downloaded
-from 
-
-
+any standard repository but a normal api jar can be built just by doing ```gradle clean build``` or it'll be uploaded  
+soon on a standard repository.
         
            
 

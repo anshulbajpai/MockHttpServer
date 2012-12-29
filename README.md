@@ -14,8 +14,8 @@ Instructions to build from source
 
 * clone the git repository
 * checkout tag version v1.0
-* run 'gradle clean build oneJar' from root directory. In build/libs there will be MockHttpServer-standalone.jar created.  
-* run 'java -jar MockHttpServer-standalone.jar --help' to see the usage instructions on command line
+* run `gradle clean build oneJar` from root directory. In build/libs there will be MockHttpServer-standalone.jar created.  
+* run `java -jar MockHttpServer-standalone.jar --help` to see the usage instructions on command line
 
 Prebuilt Jars
 =============

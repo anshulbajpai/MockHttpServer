@@ -82,6 +82,8 @@ and 'someResponse2.response' file in response folder under root directory.
 It's not mandatory to specifiy both request and response in the same style. They can be mix and matched like  
 ``` */foo4~|file(someRequest1)|@text/xml->200|my response|@text/plain ```
 
+* url specified in an expectation supports standard regex format
+
 * There is a special preconfigured GET '/reload' which will reload the server with the latest expectations. Which means,  
 if you add/modify/delete expectations then you don't need to restart the server. Just fire a GET '/reload' on the server  
 and the expectations from the root folder will be reloaded.

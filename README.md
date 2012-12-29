@@ -1,7 +1,7 @@
 MockHttpServer
 ==============
 
-QAs who want to test a REST client which is under development face difficulties to write automation code for it because  
+Devs/QAs who want to test a REST client which is under development face difficulties to write automation code for it because  
 they cannot run their tests to verify if there test code is bug free.
 
 MockHttpServer has the intention to solve this problem. They would be able to configure expected responses against  
@@ -77,6 +77,15 @@ It's not mandatory to specifiy both request and response in the same style. They
 * There is a special preconfigured GET '/reload' which will reload the server with the latest expectations. Which means,  
 if you add/modify/delete expectations then you don't need to restart the server. Just fire a GET '/reload' on the server  
 and the expectations from the root folder will be reloaded.
+
+
+
+Use it in source code 
+=====================
+
+This api can be used in scala source code. Check the tests for usage. For now, I haven't uploaded it on  
+any standard repository but a normal api jar can be built just by doing ```gradle clean build``` or it can be downloaded
+from 
 
 
         

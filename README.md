@@ -43,7 +43,6 @@ the directory structure should be
   |-post.expectations
   |-put.expectations
   |-delete.expectations
-
 ```
 * expectations is the root folder and basePath should point to expectations(name of the root folder is arbitrary)
 * get.expectations, post.expectations, put.expectations and delete.expectations are optional files. If present, they can  
@@ -63,9 +62,23 @@ or response body, the corresponding content type is mandatory.
 */foo3~->200|{"name":"response","age":"10"}|@application/json
 */foo4~|{"name":"request","age":"10"}|@application/json->200|{"name":"response","age":"10"}|@application/json
 */foo5~|hi|@text/plain->200|bye|@text/plain
-
 ```
-        
+* Sometimes, it's difficult to put the request or response body with the expectations(xmls can be case). There is a provision  
+to extract the request or response body into a file and point the expectations to the corresponding files.
+
+e.g. - ``` */foo4~|file(someRequest1)|@text/xml->200|file(someResponse2)|@text/xml ```
+
+To resolve the above expectations, the framework will try to look for 'someRequest1.request' file in request folder  
+and 'someResponse2.response' file in response folder under root directory.
+
+It's not mandatory to specifiy both request and response in the same style. They can be mix and matched like  
+``` */foo4~|file(someRequest1)|@text/xml->200|my response|@text/plain ```
+
+* There is a special preconfigured GET '/reload' which will reload the server with the latest expectations. Which means,  
+if you add/modify/delete expectations then you don't need to restart the server. Just fire a GET '/reload' on the server  
+and the expectations from the root folder will be reloaded.
+
+
         
            
 

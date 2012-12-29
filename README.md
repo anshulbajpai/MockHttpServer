@@ -18,11 +18,6 @@ Instructions to build from source
 * run 'java -jar MockHttpServer-standalone.jar --help' to see the usage instructions on command line
 
 
-Direct download standalone jar
-==============================
-[Standalone](https://github.com/anshulbajpai/MockHttpServer/blob/master/artifacts/v1/MockHttpServer-standalone.jar)
-
-
 Usage Instructions from command line
 ====================================
 
@@ -85,17 +80,11 @@ It's not mandatory to specifiy both request and response in the same style. They
 if you add/modify/delete expectations then you don't need to restart the server. Just fire a GET '/reload' on the server  
 and the expectations from the root folder will be reloaded.
 
+Prebuilt Jars
+====================
 
-
-Use it in source code 
-=====================
-
-This api can be used in scala source code. Check the tests for usage. For now, I haven't uploaded it on  
-any standard repository but a normal api jar can be built just by doing ```gradle clean build``` or download it from  
-[Api jar](https://github.com/anshulbajpai/MockHttpServer/blob/master/artifacts/v1/mock-http-server-1.0.jar)
-
-        
-           
+Clone this github repository and the two prebuilt jars **mock-http-server-1.0.jar** (api) and  
+**MockHttpServer-standalone.jar** (standalone) can be found under `<CLONED_DIRECTORY>/artifacts/v1`            
 
 
 

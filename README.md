@@ -20,7 +20,7 @@ Instructions to build from source
 Prebuilt Jars
 =============
 
-Clone this github repository and the two prebuilt jars **mock-http-server-1.0.jar** (api) and  
+Clone this github repository and then two prebuilt jars **mock-http-server-1.0.jar** (api) and  
 **MockHttpServer-standalone.jar** (standalone) can be found under `<CLONED_DIRECTORY>/artifacts/v1`            
 
 
@@ -58,7 +58,7 @@ specify multiple expectations(described below) for the corresponding verbs.
 * request and response are optional directories which will be described later
 * The format of an expectation in an expectations file is 
 
-``` *<url>~|<request body>|@<content type>-><response status code>|<response body>|@<content type> ```
+``` *url~|request body|@content type->response status code|response body|@content type ```
 where only 'url' and 'response status code>' are the only mandatory parameters. But to specifiy a request body  
 or response body, the corresponding content type is mandatory.
 

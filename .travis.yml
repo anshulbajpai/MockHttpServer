@@ -3,3 +3,4 @@ scala:
    - 2.9.2
 jdk:
    - openjdk6
+script: "gradle clean build"
